@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>筋トレ記録登録</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; line-height: 1.6; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; }
+        input, select { padding: 8px; width: 250px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>新規トレーニング記録</h1>
+    
+    <form th:action="@{/save}" th:object="${trainingLog}" method="post">
+        <div class="form-group">
+            <label>日付</label>
+            <input type="date" th:field="*{date}" required>
+        </div>
+
+        <div class="form-group">
+            <label>種目名</label>
+            <select th:field="*{exerciseName}">
+                <option value="アブローラー">アブローラー</option>
+                <option value="インクラインベンチプレス">インクラインベンチプレス</option>
+                <option value="スクワット">スクワット</option>
+                <option value="デッドリフト">デッドリフト</option>
+                <option value="ベンチプレス">ベンチプレス</option>
+                <option value="レッグプレス">レッグプレス</option>
+                </select>
+        </div>
+
+        <div class="form-group">
+            <label>身長 (cm)</label>
+            <input type="number" step="0.1" th:field="*{bodyHeight}">
+        </div>
+
+        <div class="form-group">
+            <label>体重 (kg)</label>
+            <input type="number" step="0.1" th:field="*{bodyWeight}">
+        </div>
+
+        <div class="form-group">
+            <label>重量 (kg)</label>
+            <input type="number" step="0.1" th:field="*{loadWeight}" required>
+        </div>
+
+        <div class="form-group">
+            <label>回数 (reps)</label>
+            <input type="number" th:field="*{reps}" required>
+        </div>
+
+        <div class="form-group">
+            <label>セット数</label>
+            <input type="number" th:field="*{sets}">
+        </div>
+
+        <div class="form-group">
+            <label>時間 (時間単位 例: 1.5)</label>
+            <input type="number" step="0.1" th:field="*{durationHours}">
+        </div>
+
+        <button type="submit">計算して保存</button>
+    </form>
+    
+    <br>
+    <a href="/">一覧に戻る</a>
+</body>
+</html>

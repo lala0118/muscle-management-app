@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>筋トレ記録一覧</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        tr:nth-child(even) { background-color: #fafafa; }
+        .btn-add { display: inline-block; padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; }
+        .btn-delete { color: #dc3545; text-decoration: none; font-size: 0.9em; }
+        .performance { font-weight: bold; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>筋トレ成長記録</h1>
+    
+    <a href="/add" class="btn-add">＋ 新規記録を追加</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>日付</th>
+                <th>種目名</th>
+                <th>重量(kg)</th>
+                <th>回数</th>
+                <th>推定MAX</th>
+                <th>体重比</th>
+                <th>時間</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="log : ${logs}">
+                <td th:text="${log.date}">2026/04/28</td>
+                <td th:text="${log.exerciseName}">ベンチプレス</td>
+                <td th:text="${log.loadWeight}">80.0</td>
+                <td th:text="${log.reps}">5</td>
+                <td th:text="${log.estimatedMax}">93.3</td>
+                <td class="performance">
+                    <span th:if="${log.bodyWeight > 0}" 
+                          th:text="${#numbers.formatDecimal(log.loadWeight / log.bodyWeight, 1, 2)}">1.2</span>
+                </td>
+                <td th:text="${log.durationHours + 'h'}">1.5h</td>
+                <td>
+                    <a th:href="@{/delete/{id}(id=${log.id})}" 
+                       class="btn-delete" 
+                       onclick="return confirm('本当に削除しますか？')">削除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div th:if="${#lists.isEmpty(logs)}" style="margin-top: 20px; color: #666;">
+        まだ記録がありません。最初のトレーニングを記録しましょう！
+    </div>
+</body>
+</html>
